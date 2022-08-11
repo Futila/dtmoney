@@ -2,14 +2,15 @@ import { useEffect } from "react";
 import incomeImg from "../../assets/income.svg";
 import outcomeImg from "../../assets/outcome.svg";
 import totalImg from "../../assets/total.svg";
+import { api } from "../../services/api";
 
 import { Container } from "./styles";
 
 export function Summary() {
   useEffect(() => {
-    fetch("http://localhost:3000/api/transactions")
-      .then((response) => response.json())
-      .then((data) => console.log(data));
+    api
+      .get("http://localhost:3000/api/transactions")
+      .then((response) => console.log(response.data));
   }, []);
 
   return (
