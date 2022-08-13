@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { useTransactions } from "../../hooks/useTransactions";
 
 import { Container } from "./styles";
@@ -38,6 +37,8 @@ export function TransactionsTable() {
           ))}
         </tbody>
       </table>
+
+      <button>Editar transação</button>
     </Container>
   );
 }

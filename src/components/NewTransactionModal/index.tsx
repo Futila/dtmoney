@@ -1,24 +1,19 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import Modal from "react-modal";
 import { useTransactions } from "../../hooks/useTransactions";
-import closeImg from "../../assets/close.svg";
 import incomeImg from "../../assets/income.svg";
 import outcomeImg from "../../assets/outcome.svg";
 
 import { Container, TransactionTypeContainer, RadioBox } from "./styles";
+import { UiModal } from "../Modal";
+import { ModalContext } from "../../ModalContext";
 
 Modal.setAppElement("#root");
 
-interface NewTransactionModalProps {
-  isOpen: boolean;
-  onRequestClose: () => void;
-}
-
-export function NewTransactionModal({
-  isOpen,
-  onRequestClose,
-}: NewTransactionModalProps) {
+export function NewTransactionModal() {
   const { createTransaction } = useTransactions();
+
+  const modalContext = useContext(ModalContext);
 
   const [type, setType] = useState("deposit");
   const [title, setTitle] = useState("");
@@ -35,23 +30,19 @@ export function NewTransactionModal({
       category,
     });
 
-    onRequestClose();
+    setType("deposit");
+    setTitle("");
+    setAmount(0);
+    setCategory("");
+
+    modalContext.handleCloseModal();
   }
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      overlayClassName="react-modal-overlay"
-      className="react-modal-content"
+    <UiModal
+      isOpen={modalContext.isOpen}
+      onRequestClose={modalContext.handleCloseModal}
     >
-      <button
-        type="button"
-        onClick={onRequestClose}
-        className="react-modal-close"
-      >
-        <img src={closeImg} alt="Fechar Modal" />
-      </button>
       <Container onSubmit={handleCreateNewTransaction}>
         <h2>Cadastrar transação</h2>
 
@@ -97,6 +88,6 @@ export function NewTransactionModal({
 
         <button type="submit">Cadastrar</button>
       </Container>
-    </Modal>
+    </UiModal>
   );
 }
