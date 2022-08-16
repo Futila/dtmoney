@@ -1,19 +1,23 @@
-import { FormEvent, useContext, useState } from "react";
+import { FormEvent, useState } from "react";
 import Modal from "react-modal";
 import { useTransactions } from "../../hooks/useTransactions";
 import incomeImg from "../../assets/income.svg";
 import outcomeImg from "../../assets/outcome.svg";
 
 import { Container, TransactionTypeContainer, RadioBox } from "./styles";
-import { UiModal } from "../Modal";
-import { ModalContext } from "../../ModalContext";
 
 Modal.setAppElement("#root");
 
-export function NewTransactionModal() {
-  const { createTransaction } = useTransactions();
+interface NewTransactionModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+}
 
-  const modalContext = useContext(ModalContext);
+export function NewTransactionModal({
+  isOpen,
+  onRequestClose,
+}: NewTransactionModalProps) {
+  const { createTransaction } = useTransactions();
 
   const [type, setType] = useState("deposit");
   const [title, setTitle] = useState("");
@@ -35,13 +39,15 @@ export function NewTransactionModal() {
     setAmount(0);
     setCategory("");
 
-    modalContext.handleCloseModal();
+    onRequestClose();
   }
 
   return (
-    <UiModal
-      isOpen={modalContext.isOpen}
-      onRequestClose={modalContext.handleCloseModal}
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      overlayClassName="react-modal-overlay"
+      className="react-modal-content"
     >
       <Container onSubmit={handleCreateNewTransaction}>
         <h2>Cadastrar transação</h2>
@@ -88,6 +94,6 @@ export function NewTransactionModal() {
 
         <button type="submit">Cadastrar</button>
       </Container>
-    </UiModal>
+    </Modal>
   );
 }

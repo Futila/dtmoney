@@ -1,17 +1,17 @@
 import { Container, Content } from "./styles";
 
 import logoImg from "../../assets/logo.svg";
-import { useContext } from "react";
-import { ModalContext } from "../../ModalContext";
 
-export function Header() {
-  const modalContext = useContext(ModalContext);
+interface HeaderProps {
+  onOpenNewTransactionModal: () => void;
+}
 
+export function Header({ onOpenNewTransactionModal }: HeaderProps) {
   return (
     <Container>
       <Content>
         <img src={logoImg} alt="dt money" />
-        <button type="button" onClick={modalContext.handleOpenModal}>
+        <button type="button" onClick={onOpenNewTransactionModal}>
           Nova transação
         </button>
       </Content>

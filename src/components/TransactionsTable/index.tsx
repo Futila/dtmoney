@@ -37,8 +37,6 @@ export function TransactionsTable() {
           ))}
         </tbody>
       </table>
-
-      <button>Editar transação</button>
     </Container>
   );
 }
